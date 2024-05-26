@@ -26,15 +26,11 @@ jobs:
     if: (github.event_name == 'issue_comment' && contains(github.event.comment.body, '[run review]') && github.event.issue.pull_request) ||　(github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '[run review]')) || (github.event_name == 'pull_request' && !contains(github.event.pull_request.title, 'release') && !contains(github.event.pull_request.title, 'Release'))
     timeout-minutes: 15
     steps:
-      - name: echo_hoge
-        run:
-          echo "secrets.HOGE = ${{ secrets.HOGE }}"
       - uses: f-kana/fk-ai-pr-reviewer@latest
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}  
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         with:
-          token: ${{ secrets.GH_PAT }}  
           debug: true
           review_simple_changes: false
           review_comment_lgtm: false
