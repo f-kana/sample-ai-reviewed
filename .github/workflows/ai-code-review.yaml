@@ -29,7 +29,7 @@ jobs:
       - uses: f-kana/fk-ai-pr-reviewer@latest
         env:
           # default is not GH_PAT but GITHUB_TOKEN, however, we need Personal Access Token in this project.
-          GITHUB_TOKEN: ${{ secrets.GITHUB_PAT }}  
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}  
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         with:
           debug: true
