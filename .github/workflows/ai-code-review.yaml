@@ -26,7 +26,7 @@ jobs:
     if: (github.event_name == 'issue_comment' && contains(github.event.comment.body, '[run review]') && github.event.issue.pull_request) ||　(github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '[run review]')) || (github.event_name == 'pull_request' && !contains(github.event.pull_request.title, 'release') && !contains(github.event.pull_request.title, 'Release'))
     timeout-minutes: 15
     steps:
-      - uses: f-kana/fk-ai-pr-reviewer@latest
+      - uses: f-kana/fk-ai-pr-reviewer@trial
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -38,6 +38,7 @@ jobs:
           openai_heavy_model: gpt-4o # 好みで変更
           openai_timeout_ms: 900000 # 15分.
           language: ja-JP
+          disable_release_notes: true
           path_filters: |
             !migrations/**
             !**/*.lock
@@ -68,13 +69,3 @@ jobs:
               - *変更点*: ファイルとその要約のテーブル。スペースを節約するために、同様の変更を持つファイルを1行にまとめることができます。
 
             GitHubのプルリクエストにコメントとして追加されるこの要約には、追加のコメントを避けてください。
-          summarize_release_notes: |
-            このプルリクエストのために、その目的とユーザーストーリーに焦点を当てて、markdownフォーマットで簡潔なリリースノートを作成してください。
-            変更は次のように分類し箇条書きにすること:
-              "New Feature", "Bug fix", "Documentation", "Refactor", "Style",
-              "Test", "Chore", "Revert"
-            例えば:
-            ```
-            - New Feature: UIに統合ページが追加されました
-            ```
-            回答は50-100語以内にしてください。この回答はそのままリリースノートに使用されるので、追加のコメントは避けてください。
